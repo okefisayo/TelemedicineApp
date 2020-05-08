@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.cglzwz.chatroom.dao.FriendMapper">
+    <resultMap id="friendList" type="xyz.cglzwz.chatroom.domain.friendList">
+        <result column="sender" property="sender" jdbcType="VARCHAR"></result>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <insert id="AcceptRequest">
+        insert into friendList(sender, receiver) values (#{sender},#{receiver})
+    </insert>
+    <select id="showFriends" resultMap="friendList">
+        select * from friendList where sender=#{username} or receiver=#{username}
+    </select>
+    <delete id="deleteFriend">
+        delete from friendList where (sender=#{sender} and receiver=#{receiver}) or (sender=#{receiver} and receiver=#{sender})
+    </delete>
+</mapper>

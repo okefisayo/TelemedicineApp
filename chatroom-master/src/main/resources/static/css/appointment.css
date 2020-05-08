@@ -1,0 +1,149 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #ccd3ea;
+    background-color: #b1dbe8;
+    background-color: #CEE2E2;
+    background-color: white;
+}
+
+img{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    height: 19px;
+    width: 19px;
+}
+
+.topnav {
+/*    background-color: #333;*/
+/*    background-color: #3788d8;*/
+/*/background-color: #128ff2;*/
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #011b33;
+    text-align: center;
+    padding: 10px 22px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+/background-color: #ddd;
+    color: black;
+    color: #404040;
+    color: #C0C0C0;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    background-color: #ff4743;
+    background-color: rgb(60, 118, 205);
+    color: white;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.title_container{
+    text-align: center;
+}
+
+h2{
+    display: inline-block;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-family: sans-serif;
+    color: #404040;
+}
+
+
+#calendar {
+/border: 1px solid black;
+    text-align: center;
+    font-size: 14px;
+    font-family: sans-serif;
+    margin: 8% auto;
+    width: 100%;
+}
+
+.calendar th {
+    padding: 15px;
+    color: #91A7FF;
+}
+
+.calendar td {
+    border: 10px solid black;
+    border-left: 20px solid black;
+    border-right: 20px solid black;
+    padding: 15px;
+
+    border: 10px solid white;
+    border-left: 20px solid white;
+    border-right: 20px solid white;
+    padding: 17px;
+
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #404040;
+}
+
+.calendar td:hover {
+    background-color: black;
+    background-color: #C4D0FF;
+}
+
+#information {
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #f8f9fa;
+    transition: all 0.3s;
+    padding-top: 50px;
+    padding-left: 10px;
+}
+
+#information.active {
+    margin-left: -300px;
+    position: absolute;
+}
+
+#content {
+    width: calc(100% - 300px);
+    padding: 40px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#content.active {
+    width: 100%;
+    position: inherit;
+}
+
+.fa.fa-cog.fa-headr {
+    /*position: absolute;*/
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+}

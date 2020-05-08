@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Videos</title>
+    <script th:src="@{/lib/jquery.js}"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+    <link rel="stylesheet" th:href="@{css/videos.css}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/index">Chat Room</a>
+    <a href="/videos" class="active">Videos</a>
+    <a href="/Reports">Reports</a>
+    <a href="/friends">Contacts</a>
+    <a href="/appointment">appointment</a>
+    <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+<div class="specific_video_container" id="specific_video_container" style="display: none;">
+</div>
+
+
+
+<div class="video-main">
+    <h1>Helpful Videos</h1>
+    <video width="1000" height="400" controls>
+        <source src="byterange" type="video/mp4">
+    </video>
+</div>
+
+
+<div class="all_videos_container" id="all_videos_container">
+    <form action="/uploadVideos" method="post" enctype="multipart/form-data">
+        <input class="file" type="file" name="uploadFiles" value="Choose Files" multiple />
+        <button type="submit" value="Upload" >Upload Video</button>
+    </form>
+</div>
+
+<p id="UserVideo"></p>
+<a href="/uploadVideos">Upload Videos</a>
+<script>
+    $(function () {
+        showVideoList();
+        function showVideoList() {
+            $.ajax({
+                type: 'POST',
+                url: '/fileList',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({}),
+                success: function (data) {
+                    var obj=data;
+                    console.log(obj);
+                    var html="<h1>File List:</h1><br><br>";
+                    for(var i=0; i<obj.length; i++){
+                          html+=obj[i]+"<a href='/download/"+obj[i]+"'>"+"Download</a>       "+"<a href='/delete/"+obj[i]+"'>"+"delete"+"</a>"
+                            +"<br><br>";
+                    }
+                    $("#UserVideo").html(html);
+                },
+                error:function (data) {
+                    alert("Failed!");
+                }
+            })
+        }
+    })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Videos</title>
+    <script th:src="@{/lib/jquery.js}"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+</head>
+<body>
+<form action="/uploadVideos" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploadFiles" value="Choose Files" multiple />
+    <input type="submit" value="Upload" />
+</form>
+
+</body>
+</html>

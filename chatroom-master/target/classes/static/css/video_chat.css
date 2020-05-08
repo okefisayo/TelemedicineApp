@@ -1,0 +1,94 @@
+.v-container {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0 50px;
+    background-color: white;
+    /background-image: linear-gradient(to bottom right, red, yellow);
+    background-image: linear-gradient(to bottom right, #538d8b, #7c7d49);
+    /background-image: linear-gradient(to bottom right, #272739, #304343);
+}
+
+.video_container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    box-shadow: 0 1px 22px rgba(230, 230, 230, 0.27);
+    /background-image: linear-gradient(to bottom right, #538d8b, #7c7d49);
+    //height: 50%;
+}
+
+.local_video{
+    position: absolute;
+    width: 100px;
+    border-style: solid;
+    border-color: #81aece;
+    display: inline;
+    //border-radius: 2px;
+    //box-shadow: 0 1px 11px rgba(131, 131, 131, 0.27);
+}
+
+.remote_video{
+    width: 100%;
+    display: inline;
+    //border-radius: 2px;
+    box-shadow: 0 1px 22px rgba(131, 131, 131, 0.27);
+}
+
+.end_call_icon {
+    position:unset;
+    top: 0px;
+    right: 10px;
+    height: auto;
+    width: 25px;
+}
+
+.end_call{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: -60px;
+
+    width: 42px;
+    height: 42px;
+    background-color: #d83f3f;
+    cursor: pointer;
+
+    overflow: hidden;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.video {
+    max-width: calc(50% - 100px);
+    margin: 0 50px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    padding: 0;
+    box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+}
+
+.copy {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.container .chat{
+    max-width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+}

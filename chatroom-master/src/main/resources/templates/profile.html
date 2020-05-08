@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/settings.css}">
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/index">Chat Room</a>
+    <a href="/videos">Videos</a>
+    <a href="/Reports">Reports</a>
+    <a href="/friends">Contacts</a>
+    <a href="/appointment">appointment</a>
+    <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+<!--
+<a href="/updateProfilePage">Update Profile</a>
+-->
+
+<h1 style="margin-left: 20%; margin-top: auto; font-size: 25px;font-weight: 700;font-family: sans-serif;color: #404040; margin-top: 30px;">User Profile[<a href="/updateProfilePage">Update Profile</a>]</h1>
+<br><br>
+<p id="info" style="margin-left: 20%; margin-top: auto; ; margin-right: 60%; border-radius:25px; border: 2px #F5FFFA;
+font-size: 15px;font-weight: 500;font-family: sans-serif; color: #404040;">
+    <br>
+</p>
+<script>
+    $(function () {
+        //console.log(username);
+        showProfile();
+
+        //Ajax transfer data
+        function showProfile(){
+            $.ajax({
+                type: 'POST',
+                url: '/showprofile',
+                contentType: "application/json",
+                data: JSON.stringify({}),
+                success: function (data) {
+                    var obj=data.data;
+                    console.log(obj);
+                    var nickname=data.data.nickname;
+                    var email=data.data.email;
+                    var sex=data.data.sex;
+                    var identity=data.data.identity;
+                    var age=data.data.age;
+                    var phone=data.data.phone;
+
+                    var lastname=data.data.lastname;
+                    var firstname=data.data.firstname;
+                    var address=data.data.address;
+                    var city=data.data.city;
+                    var zipcode=data.data.zipcode;
+                    var state=data.data.state;
+                    var description=data.data.description;
+                    var StringIdentity="Patient";
+                    if(identity==1){
+                        StringIdentity="Doctor"
+                    }
+
+                    var html="NICKNAME: "+nickname
+                        +"<br><br><br>identity: "+StringIdentity;
+                    if(age != null) html += "<br><br><br>age: "+age;
+                    if(sex != null) html += "<br><br><br>sex: "+sex;
+                    if(email != null) html += "<br><br><br>email: "+email;
+                    if(lastname != null) html += "<br><br><br>lastname: "+lastname;
+                    if(firstname != null) html += "<br><br><br>firstname: "+firstname;
+                    if(address != null) html += "<br><br><br>address: "+address;
+                    if(city != null) html += "<br><br><br>city: "+city;
+                    if(state != null) html += "<br><br><br>state: "+state;
+                    if(zipcode != null) html += "<br><br><br>zipcode: "+zipcode;
+                    if(phone != null) html += "<br><br><br>phone: "+phone;
+                    if(description != null) html += "<br><br><br>description: "+description;
+
+                        // +"<br><br><br>age: "+age
+                        // +"<br><br><br>sex: "+sex
+                        // +"<br><br><br>email: "+email
+
+                        // +"<br><br><br>lastname: "+lastname
+                        // +"<br><br><br>firstname: "+firstname
+                        // +"<br><br><br>address: "+address
+                        // +"<br><br><br>city: "+city
+                        // +"<br><br><br>state: "+state
+                        // +"<br><br><br>zipcode: "+zipcode
+                        //
+                        // +"<br><br><br>phone: "+phone
+                        // +"<br><br><br>description: "+description;
+                    $("#info").html(html);
+                },
+                error: function (data) {
+                    alert("error"+data.message);
+                }
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

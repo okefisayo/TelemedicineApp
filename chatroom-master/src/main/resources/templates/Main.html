@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+<!--    <script th:src="@{/js/home.js}"></script>-->
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{css/home.css}">
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="/">Home</a>
+        <a href="/index">Chat Room</a>
+        <a href="/videos">Videos</a>
+        <a href="/Reports">Reports</a>
+        <a href="/friends">Contacts</a>
+        <a href="/appointment">appointment</a>
+        <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+<div class="contain" >
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4" id="username-header"></h1>
+            <p class="lead" id="appointment-today"></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-3" id="appointments">
+            <div class="list-group navigate" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active main" id="upcoming_list" data-toggle="list" href="#upcoming_appointment" role="tab" aria-controls="upcoming">Upcoming Appointments</a>
+                <a class="list-group-item list-group-item-action main" id="pending_list" data-toggle="list" href="#pending_appointment" role="tab" aria-controls="pending">Pending Appointments</a>
+                <a class="list-group-item list-group-item-action main" id="friend_list" data-toggle="list" href="#friends" role="tab" aria-controls="friends">View Patients</a>
+<!--                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>-->
+            </div>
+
+<!--            <button type="button" class="btn btn-event">Create Event</button>-->
+            <a class="btn btn-event" href="/createEvent" role="button">Create Event</a>
+            <br/>
+<!--            <button type="button" id="user-add" class="btn btn-add"></button>-->
+            <a class="btn btn-add" id="user-add" href="/friends" role="button"></a>
+        </div>
+
+        <!-- STILL DEVELOPING-->
+        <div class="col col-md-9" id="messages">
+<!--            <a href="/messages"><h2>Expired Appointments</h2></a>-->
+<!--            <h2 id="header"></h2>-->
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="upcoming_appointment" role="tabpanel" aria-labelledby="upcoming_list"></div>
+                <div class="tab-pane fade" id="pending_appointment" role="tabpanel" aria-labelledby="pending_list"></div>
+                <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friend_list"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function () {
+        pending();
+        showAppointment();
+        showFriend();
+        friendList()
+    });
+    function showAppointment() {
+        $.ajax({
+            type: 'POST',
+            url: '/showAppointments',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            // console.log(data);
+            success: function (data) {
+                console.log(data);
+                var obj=data.data;
+                var html="";
+                var count = 0;
+                // console.log(obj);
+
+                if(obj.length > 0) {
+                    html += '<table class="table main">\n' +
+                        '  <thead class="thead-custom">\n' +
+                        '    <tr>\n' +
+                        '      <th scope="col">Name</th>\n' +
+                        '      <th scope="col">Time</th>\n' +
+                        '      <th scope="col">Location</th>\n' +
+                        '      <th scope="col">Description</th>\n' +
+                        '      <th scope="col">Date</th>\n' +
+                        '    </tr>\n' +
+                        '  </thead>\n' +
+                        '  <tbody>\n'
+
+                    for(var i=0; i<obj.length; i++){
+                        var nickname=obj[i].nickname;
+                        var description=obj[i].description;
+                        var date=obj[i].date;
+                        var location=obj[i].location;
+                        var hour=obj[i].hour;
+                        var sender=obj[i].sender;
+                        console.log(sender);
+                        var receiver=obj[i].receiver;
+                        // console.log();
+                        var d = new Date();
+                        var current = new Date(obj[i].date)
+                        if(current.toDateString() === d.toDateString()){
+                            count++;
+                        }
+
+
+                        html +='    <tr>' +
+                            '      <th scope="row">' + sender + '</th>' +
+                            '      <td>' + hour + '</td>' +
+                            '      <td>' + location + '</td>' +
+                            '      <td>' + description + '</td>' +
+                            '      <td>' + date + '</td>' +
+                            '    </tr>'
+                    }
+                    html += '  </tbody>\n' +
+                        '</table>';
+                }
+                else{
+                    html += '<h1 class="text-muted text-weight">You have no upcoming appointments</h1>'
+                }
+
+                $("#appointment-today").html('You have ' + count + ' appointments today.');
+                $("#upcoming_appointment").html(html);
+            },
+            error: function (data) {
+                console.log(data);
+                alert(data.message);
+            }
+        });
+    }
+
+
+    function friendList() {
+        $.ajax({
+            type: 'POST',
+            url: '/showFriendList',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                //need to change
+                var obj=data.data;
+                var html="";
+                if(obj.length > 0){
+                    html += '<div class="row">'
+                    for(var i=0; i<obj.length; i++){
+                        var nickname=obj[i].nickname;
+                        var nameCapitalize = nickname.charAt(0).toUpperCase() + nickname.slice(1)
+                        var username=obj[i].username;
+                        var identity=obj[i].identity;
+                        var description=obj[i].description;
+
+                        html += '<div class="col-lg-4 col-md-4 mb-md-0 mb-4">\n' +
+                            '      <div class="card friends-card">\n'+
+                            '        <div class="card-up custom-gradient" style="background-color: ">\n' +
+                            '        </div>\n' +
+                            '        <div class="avatar mx-auto white">\n' +
+                            '          <i class="fa fa-user-circle fa-img"></i>\n' +
+                            '        </div>\n' +
+                            '        <div class="card-body">\n' +
+                            '          <h4 class="font-weight-bold mb-4">' + nameCapitalize + '</h4>\n' +
+                            '        </div>\n' +
+                            '      </div>\n' +
+                            '    </div>';
+                    }
+                    html += '</div>';
+                }else{
+                    html += '<h1 class="text-muted text-weight">You currently have nobody on your list</h1>'
+                }
+
+                $("#friends").html(html);
+                $(".custom-gradient").css("background-color", getAvatarColor(nickname));
+                $(".fa-img").css({"padding": "0px", "font-size": "120px", "color": "#626567"});
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+
+
+    function pending() {
+        $.ajax({
+            type: 'POST',
+            url: '/showAppointmentRequest',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                var obj=data.data;
+                var html="";
+
+                if(obj.length >0){
+                    html += '<table class="table main">\n' +
+                        '  <thead class="thead-custom">\n' +
+                        '    <tr>\n' +
+                        '      <th scope="col">Name</th>\n' +
+                        '      <th scope="col">Time</th>\n' +
+                        '      <th scope="col">Location</th>\n' +
+                        '      <th scope="col">Date</th>\n' +
+                        '      <th scope="col">Description</th>\n' +
+                        '      <th scope="col"></th>\n' +
+                        '      <th scope="col"></th>\n' +
+                        '    </tr>\n' +
+                        '  </thead>\n' +
+                        '  <tbody>\n'
+                    for(var i=0; i<obj.length; i++){
+                        var nickname=obj[i].nickname;
+                        var sender=obj[i].sender;
+                        //var receiver=obj[i].receiver;
+                        var hour=obj[i].hour;
+                        var description=obj[i].description;
+                        var date=obj[i].date;
+                        var location=obj[i].location;
+                        var id=obj[i].id;
+
+                        // console.log(description.length);
+                        // console.log(location);
+
+                        html +='    <tr>' +
+                            '      <th scope="row">' + nickname + '</th>' +
+                            '      <td>' + hour + '</td>' +
+                            '      <td>' + location + '</td>' +
+                            '      <td>' + date + '</td>' +
+                            '      <td>' + description + '</td>' +
+                            '      <td><a class="btn btn-add btn-sm" href="/Agree/' + id + '" role="button">Accept</a></td>' +
+                            '      <td><a class="btn btn-danger btn-sm" href="/Refuse/' + id + '" role="button">Refuse</a></td>' +
+                            '    </tr>'
+
+                    }
+                    html += '  </tbody>\n' +
+                        '</table>';
+
+                }
+                else{
+                    html += '<h1 class="text-muted text-weight">You have no pending appointments</h1>'
+                }
+                $("#pending_appointment").html(html);
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        })
+    }
+
+    function getAvatarColor(messageSender) {
+        var colors = [
+            '#34495E', '#186A3B', '#BA4A00', '#B03A2E',
+            '#21618C', '#17202A', '#784212', '#39bbb0'
+        ];
+
+        var hash = 0;
+        for (var i = 0; i < messageSender.length; i++) {
+            hash = 31 * hash + messageSender.charCodeAt(i);
+        }
+
+        var index = Math.abs(hash % colors.length);
+        return colors[index];
+    }
+
+    function showFriend(){
+        $.ajax({
+            type: 'POST',
+            url: '/showprofile',
+            contentType: "application/json",
+            data: JSON.stringify({}),
+            success: function (data) {
+                var obj=data.data;
+                var identity=data.data.identity;
+                var name = data.data.nickname;
+                var nameCapitalize = name.charAt(0).toUpperCase() + name.slice(1);
+               var html = "";
+               var initials = "Hi";
+                if(identity==1){
+                    html = "Add Patients"
+                    initials += " Doctor " + nameCapitalize;
+                }
+                else{
+                    html = "Add Doctors"
+                    initials += " " + nameCapitalize;
+                }
+
+
+                $("#username-header").html(initials);
+                $("#user-add").html(html);
+            },
+            error: function (data) {
+                alert("error"+data.message);
+            }
+        });
+    }
+</script>
+</body>
+</html>

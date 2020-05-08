@@ -1,0 +1,163 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #ccd3ea;
+  background-color: #b1dbe8;
+  background-color: #fefefe;
+    background-color: #66C1B0 !important;
+  /background-color: white;
+}
+
+img{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  height: 19px;
+  width: 19px;
+}
+
+h1{
+  margin-bottom: 2px;
+}
+
+.user_name {
+  margin-bottom: 20px;
+}
+
+.topnav {
+    /*background-color: #333;*/
+    /*background-color: #3788d8;*/
+    /*/background-color: #128ff2;*/
+    overflow: hidden;
+    /*height: 30%;*/
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #011b33;
+    text-align: center;
+    padding: 10px 22px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+form{
+    margin: auto;
+    width: 60%;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    /background-color: #ddd;
+    color: black;
+    color: #404040;
+    color: #C0C0C0;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    background-color: #ff4743;
+    background-color: rgb(60, 118, 205);
+    color: white;
+}
+
+.left_side{
+  float: left;
+  width: 30%;
+  padding-left: 20px;
+  padding-right: 5%;
+}
+
+.right_side{
+  float: left;
+  padding: 30px;
+  width: 30%;
+  padding-left: 5%;
+  padding-right: 20px;
+}
+
+.title_name{
+  font-size: 25px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: #404040;
+}
+
+.user_type {
+  font-size: 15px;
+  /font-weight: bold;
+  font-family: sans-serif;
+  color: #a5a5a5;
+  padding-bottom: 20px;
+}
+
+.button {
+
+}
+
+/* Input =============================================================================================================*/
+.input_holder{
+  margin-bottom: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: #404040;
+}
+
+input[type=text], select {
+  padding: 8px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  width: 100%;
+  padding: 9px;
+  margin: 0px;
+  margin-top: 7px;
+  margin-bottom: 12px;
+  /border: transparent;
+  /*background-color: transparent;*/
+  outline: none;
+  font-size: 12px;
+  font-weight: bold;
+    background-color: white !important;
+}
+
+input[type=submit] {
+  position: relative;
+  left: 50%;
+  /right: -50%;
+  transform: translate(-50%);
+  width: 100px;
+  background-color: #4CAF50;
+  /background-color: #404040;
+  color: white;
+  padding: 10px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  /float: right;
+}
+
+p {
+    padding-bottom: 20px;
+    margin-top: 5px;
+    font-family: sans-serif;
+}
+
+.fa.fa-cog.fa-headr {
+    /*position: absolute;*/
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+}

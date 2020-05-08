@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Friends search</title>
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+    <link rel="stylesheet" th:href="@{css/home.css}">
+    <link rel="stylesheet" th:href="@{css/friends.css}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/index" >Chat Room</a>
+    <a href="/videos">Videos</a>
+    <a href="/Reports">Reports</a>
+    <a href="/friends" class="active">Contacts</a>
+    <a href="/appointment">appointment</a>
+    <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+<!--<a href="/availableFriends">show friends</a><br><br>-->
+<div class="left">
+    <h1 class="A">Search User</h1><br>
+    <form id="searchForm" onsubmit="search()">
+        <input type="text" name="nickname" class="nickname" placeholder="nickname"/><br><br>
+        <input type="submit" class="submit" value="Search"></input>
+    </form>
+</div>
+<br><br>
+<div id="user">
+
+</div>
+
+<div class="middle">
+    <div id="request-sent"></div>
+    <div id="receive"></div>
+</div>
+
+<!--<div id="friend-list"></div>-->
+<script>
+    $(function () {
+        friendList();
+        requestPending();
+        receiveRequest();
+    })
+
+    function friendList() {
+        $.ajax({
+            type: 'POST',
+            url: '/showFriendList',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                //need to change
+                var obj=data.data;
+                var html="<h2>FriendList:</h2><br><br>";
+                for(var i=0; i<obj.length; i++){
+                    var nickname=obj[i].nickname;
+                    var username=obj[i].username;
+                    var identity=obj[i].identity;
+                    var description=obj[i].description;
+                    html+="<div style='border-radius: 5px; background-color: springgreen; '>"+i+
+                        ")<br>nickname: "+nickname
+                        +"<br>"
+                        +"identity: "+identity
+                        +"<br>"
+                        +"description: "+description
+                        +"<br>"
+                        +"<a style='color: #00b0ff' href='/deleteFriend/"+username+"'>delete friend</a></div><br><br>"
+                }
+                $("#friend-list").html(html)
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+
+    function receiveRequest() {
+        $.ajax({
+            type: 'POST',
+            url: '/receiveRequest',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                var obj=data.data;
+                var html="Here are some friend Requests from other users:<br><br>";
+                for(var i=0; i<obj.length; i++){
+                    var nickname=obj[i].nickname;
+                    var username=obj[i].username;
+                    var description=obj[i].description;
+                    html+="nickname: "+nickname
+                        +"<br>"
+                        +"description: "+description
+                        +"<br>"
+                        +"<a style='color: #007bff' href='/AcceptRequest/"+username+"'>Accept</a>"
+                        +"<br><a style='color: #007bff' href='/undoRequest/"+username+"'>Refuse</a>"
+                    ;
+                }
+                $("#receive").html(html);
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        })
+    }
+
+    function requestPending(){
+        $.ajax({
+            type: 'POST',
+            url: '/showRequest',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                var obj=data.data;
+                var html="PENDING FRIEND REQUESTS:<br><br>";
+                for(var i=0; i<obj.length; i++){
+                    var nickname=obj[i].nickname;
+                    var username=obj[i].username;
+                    var description=obj[i].description;
+                    html+="nickname: "+nickname
+                        +"<br>"
+                        +"description: "+description
+                        +"<br>"
+                        +"<a href='/undoRequest/"+username+"'>UNDO REQUEST</a>";
+                }
+                $("#request-sent").html(html);
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        })
+    }
+
+    $('#searchForm').submit(search());//fucking useful! not refresh
+    function search() {
+        var formObject={};
+        var formArray=$("#searchForm").serializeArray();
+        console.log(formArray);
+        $.each(formArray,function(i,item){
+            formObject[item.name] = item.value;
+        });
+
+        console.log(formObject);
+        $.ajax({
+            type: 'POST',
+            url: '/searchUser',
+            contentType: 'application/json',
+            data: JSON.stringify(formObject),
+            dataType: "json",
+            success: function (data) {
+                console.log(data.data);
+                var obj=data.data;
+                var html="Searching Result:<br>";
+                for(var i=0; i<obj.length; i++){
+                    var nickname=obj[i].nickname;
+                    var identity=obj[i].identity;
+                    var description=obj[i].description;
+                    var username=obj[i].username;
+                    html+="<div style='border-radius: 10px; background-color: #a5a5a5'>"+
+                        "nickname: "+nickname
+                        +"<br>identity: "+identity
+                        +"<br>description:"+description
+                        +"<br><a style='color: #007bff' href='/sendRequest/"+username+"'>"+"send friend request</a></div>"
+                        +"<br><br>";
+                }
+                $("#user").html(html);
+            },
+            error: function (data) {
+                alert("NOT FOUND ANY MATCHED USERS");
+            }
+        });
+        //this is fucking important!!!!!!!Dont forget this shit.
+        return false;
+    }
+</script>
+</body>
+</html>

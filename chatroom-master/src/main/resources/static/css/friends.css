@@ -1,0 +1,49 @@
+.left{
+    border-radius:10px;
+    margin-left: 27%;
+    max-width: 40%;
+    text-align: center;
+}
+.nickname{
+    border-radius:10px;
+    border: solid #a5a5a5 1px;
+    width: 350px;
+    height: 35px;
+}
+.submit{
+    border-radius:10px;
+    background-color: #4CAF50;
+    width: 350px;
+    height: 35px;
+    border: 0px;
+}
+.A{
+    font-family: Arial;
+    color: #222222;
+}
+
+#friend-list{
+    color: #404040;
+    border-radius:10px;
+    font-family: sans-serif;
+    margin-left: 27%;
+    max-width: 40%;
+}
+#user{
+    border-radius:10px;
+    margin-left: 27%;
+    max-width: 40%;
+    font-family: sans-serif;
+}
+#user a {
+    color: #00b0ff;
+}
+.middle{
+    border-radius:10px;
+    margin-left: 27%;
+    max-width: 40%;
+    font-family: sans-serif;
+}
+.middle a {
+ color: #00b0ff;
+}

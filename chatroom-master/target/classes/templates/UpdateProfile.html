@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Profile</title>
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+    <link rel="stylesheet" th:href="@{css/settings.css}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/index">Chat Room</a>
+    <a href="/videos">Videos</a>
+    <a href="/Reports">Reports</a>
+    <a href="/friends">Contacts</a>
+    <a href="/appointment">appointment</a>
+    <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+<div class="container">
+    <form id="updateForm">
+        <div class="left_side">
+            <h1 class="title_name" id="title_name">Personal Info Settings</h1>
+            <div class="input_holder">
+                NickName<br>
+                <input type="text" name="nickname" id="fullname"><br>
+            </div>
+            <div class="input_holder">
+                Sex<br>
+                <input type="text" name="sex" id="dob"><br>
+            </div>
+            <div class="input_holder">
+                age<br>
+                <input type="text" name="age" id="email_address"><br>
+            </div>
+            <div class="input_holder">
+                email<br>
+                <input type="text" name="email" id="address"><br>
+            </div>
+            <div class="input_holder">
+                Phone<br>
+                <input type="text" name="phone" ><br>
+            </div>
+            <div class="input_holder">
+                lastname<br>
+                <input type="text" name="lastname" ><br>
+            </div>
+            <div class="input_holder">
+                firstname<br>
+                <input type="text" name="firstname" ><br>
+            </div>
+            <div class="input_holder">
+                address<br>
+                <input type="text" name="address" ><br>
+            </div>
+            <div class="input_holder">
+                city<br>
+                <input type="text" name="city" ><br>
+            </div>
+            <div class="input_holder">
+                state<br>
+                <input type="text" name="state" ><br>
+            </div>
+            <div class="input_holder">
+                zipcode<br>
+                <input type="text" name="zipcode" ><br>
+            </div>
+            <div class="input_holder">
+                description<br>
+                <input type="text" name="description" ><br>
+            </div>
+            <input type="submit" value="Save" onclick="update()" />
+        </div>
+
+        <div class="right_side">
+        </div>
+    </form>
+</div>
+
+<!--
+<form id="Dev-Test">
+    <label><input type="radio" name="identity" checked="checked" value="2">Patient</label><br><br>
+    <label><input type="radio" name="identity" value="1">Doctor</label><br><br>
+</form>
+-->
+<script>
+    function update() {
+        var formObject={};
+        var formArray=$("#updateForm").serializeArray();//#updateForm
+        $.each(formArray,function(i,item){
+            formObject[item.name] = item.value;
+        });
+        console.log(formArray);
+        console.log(formObject);
+        $.ajax({
+            type: 'POST',
+            url: '/updateprofile',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(formObject),
+            dataType:'json',
+            success: function (data) {
+                console.log(data.data);
+                alert("Update Successfully!")
+                window.location.href = "profile";
+            },
+            error:function (e) {
+                alert("error!");
+            }
+        });
+    }
+</script>
+</body>
+</html>

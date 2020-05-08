@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.cglzwz.chatroom.dao.InfoMapper">
+    <resultMap id="InfoResult" type="xyz.cglzwz.chatroom.domain.info">
+        <result column="identity" property="identity" jdbcType="VARCHAR"></result>
+        <result column="username" property="username" jdbcType="VARCHAR"></result>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+        <result column="age" property="age" jdbcType="VARCHAR"></result>
+        <result column="sex" property="sex" jdbcType="VARCHAR"></result>
+        <result column="phone" property="phone" jdbcType="VARCHAR"></result>
+
+        <result column="lastname" property="lastname" jdbcType="VARCHAR"></result>
+        <result column="firstname" property="firstname" jdbcType="VARCHAR"></result>
+        <result column="address" property="address" jdbcType="VARCHAR"></result>
+        <result column="city" property="city" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" jdbcType="VARCHAR"></result>
+        <result column="zipcode" property="zipcode" jdbcType="VARCHAR"></result>
+        <result column="description" property="description" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <sql id="UserInfo">
+        identity,nickname,email,age,sex,phone
+    </sql>
+    <update id="UpdateInfo">
+        update profile
+        <set>
+            <if test="information.identity!=null and information.identity!=''">identity=#{information.identity},</if>
+            <if test="information.nickname!=null and information.nickname!=''">nickname=#{information.nickname,jdbcType=VARCHAR},</if>
+            <if test="information.email!=null and information.email!=''">email=#{information.email,jdbcType=VARCHAR},</if>
+            <if test="information.age!=null and information.age!=''">age=#{information.age,jdbcType=VARCHAR},</if>
+            <if test="information.sex!=null and information.sex!=''">sex=#{information.sex,jdbcType=VARCHAR},</if>
+            <if test="information.phone!=null and information.phone!=''">phone=#{information.phone,jdbcType=VARCHAR},</if>
+            <if test="information.lastname!=null and information.lastname!=''">lastname=#{information.lastname, jdbcType=VARCHAR},</if>
+            <if test="information.firstname!=null and information.firstname!=''">firstname=#{information.firstname, jdbcType=VARCHAR},</if>
+            <if test="information.address!=null and information.address!=''">address=#{information.address, jdbcType= VARCHAR},</if>
+            <if test="information.city!=null and information.city!=''">city=#{information.city, jdbcType=VARCHAR},</if>
+            <if test="information.state!=null and information.state!=''">state=#{information.state, jdbcType=VARCHAR},</if>
+            <if test="information.zipcode!=null and information.zipcode!=''">zipcode=#{information.zipcode, jdbcType=VARCHAR},</if>
+            <if test="information.description!=null and information.description!=''">description=#{information.description, jdbcType=VARCHAR},</if>
+        </set>
+        where username=#{information.username}
+    </update>
+    <insert id="CreateProfile">
+        insert into profile(username, identity, nickname)values (#{username}, #{identity}, #{nickname})
+    </insert>
+    <select id="getInfoByUsername" resultMap="InfoResult">
+        select * from profile where username=#{username}
+    </select>
+
+    <select id="selectPatientByIdentity" resultMap="InfoResult">
+        select nickname,description,username from profile where identity =#{identity};
+    </select>
+
+    <select id="selectDoctorByIdentity" resultMap="InfoResult">
+        select nickname,description,username from profile where identity =#{identity};
+    </select>
+
+    <select id="selectNameAndDescriptionByNickname" resultMap="InfoResult">
+        select nickname,username,description,identity from profile where nickname=#{nickname}
+    </select>
+    <select id="selectIdentityByUsername" resultMap="InfoResult">
+        select identity from profile where username=#{username}
+    </select>
+    <select id="selectNicknameAndUserNameByUsername" resultMap="InfoResult">
+        select username, nickname,description,identity from profile where username=#{username}
+    </select>
+    <select id="selectNicknameByUsername" resultMap="InfoResult">
+        select nickname from profile where username=#{username}
+    </select>
+
+
+
+
+
+
+</mapper>

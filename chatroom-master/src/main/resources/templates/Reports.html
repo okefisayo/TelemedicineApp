@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>reports</title>
+    <link rel="stylesheet" th:href="@{css/home.css}">
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/index">Chat Room</a>
+    <a href="/videos">Videos</a>
+    <a href="/Reports" class="active">Reports</a>
+    <a href="/friends">Contacts</a>
+    <a href="/appointment">appointment</a>
+    <a href="/profile" style="padding: 0px 0px;"><i class="fa fa-cog fa-headr"></i></a>
+</div>
+    <!--
+    <form action='/DoctorSend' method='post' enctype='multipart/form-data'>
+        <input class='file' type='file' name='uploadFiles' value='Choose Files' multiple />
+        <button type='submit' value='Upload' >Upload Video</button>
+    </form>
+    -->
+<div id="patients"></div>
+<div id="reports-received">
+</div>
+<script>
+    $(function () {
+        showPatients();
+        getReports();
+    });
+    function getReports() {
+        $.ajax({
+            type: 'POST',
+            url: '/getReports',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                var obj=data.data;
+                var html="<h2>download reports from your doctors:</h2>";
+                if(obj==null){console.log("success")}
+                for(var i=0; i<obj.length; i++){
+                    var id=obj[i].id;
+                    var doctor=obj[i].doctor;
+                    var receiver=obj[i].receiver;
+                    var path=obj[i].path;
+                    var filename=obj[i].filename;
+                    html+="<div style='background-color: springgreen; border-radius: 10px; width: 40%;'>" +
+                        "<a style='color: #00b0ff' href='/DownloadReport/"+id+"'>download reports from "+doctor+"<br>file name: "+filename+"</a></div><br><br>";
+                }
+                $("#reports-received").html(html);
+            },
+            error: function (data) {
+                console.log("error");
+                alert(data.message);
+            }
+        });
+    }
+    function showPatients() {
+        $.ajax({
+            type: 'POST',
+            url: '/YourPatients',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            dataType: "json",
+            success: function (data) {
+                var obj=data.data;
+                var html="<h1>Doctor upload:</h1>";//username, nickname
+                for(var i=0; i<obj.length; i++){
+                    var username=obj[i].username;
+                    var nickname=obj[i].nickname;
+                    html+="<div style='background-color: springgreen; border-radius: 10px;width: 40%'>"+"<h2>send a report to "+nickname+"</h2>"
+                        +"<br><form style='width: 200px; length: 500px' action='/DoctorSend/"+username
+                        +"' method='post' enctype='multipart/form-data'>"
+                        +"<input style='border-radius: 5px; border: 1px solid ;' class='file' type='file' name='uploadFiles' value='Choose Files' multiple />"
+                        +"<button style='border-radius: 5px;border: 0px;background-color: #007bff' type='submit' value='Upload' >Upload Video</button></form></div>";
+                }
+                $("#patients").html(html);
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+</script>
+</body>
+</html>

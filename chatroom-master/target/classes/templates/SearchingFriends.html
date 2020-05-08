@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+    <script th:src="@{lib/jquery.js}"></script>
+    <script th:src="@{js/jquery.cookie.js}"></script>
+</head>
+<body>
+<h1>Doctor List</h1>
+<p id="doctors"></p>
+
+<br><br><br>
+<p id="patients-root"></p>
+<script>
+    $(function () {
+        showDoctors();
+        showPatients();
+        function showDoctors() {
+            $.ajax({
+                type: 'POST',
+                url: '/showDoctors',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({}),
+                success: function (data) {
+                    var obj=data.data;//list
+                    var html="";
+                    for(var i=0; i<obj.length; i++){
+                        html+="nickname: "+obj[i].nickname+"    description: "+obj[i].description;
+                    }
+                    $("#doctors").html(html);
+                },
+                error: function (data) {
+                    $("#doctors").html(data.message);
+                }
+            })
+        }
+        function showPatients() {
+            $.ajax({
+                type: 'POST',
+                url: '/showPatients',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({}),
+                success: function (data) {
+                    var obj=data.data;
+                    var html1="<h1>Patients List</h1>";
+                    for(var i=0; i<obj.length; i++){
+                        html1+="nickname: "+obj[i].nickname+"    description: "+obj[i].description;
+                    }
+                    $("#patients-root").html(html1);
+                },
+                error: function (data) {
+                    $("#patients-root").html(data.message);
+                }
+            })
+        }
+    })
+
+</script>
+</body>
+</html>
